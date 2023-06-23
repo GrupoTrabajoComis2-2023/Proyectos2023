@@ -132,3 +132,95 @@ class BaseDatos:
 
     def cerrar_conexion(self):
         self.conexion.close()
+        
+def main():
+    base_datos = BaseDatos()
+
+    while True:
+        print("\n=== ADMINISTRADOR DE Leyes ===")
+        print("1. Crear Ley")
+        print("2. Leer Leyes")
+        print("3. Actualizar Ley")
+        print("4. Eliminar Ley")
+        print("5. Consultar Ley")
+        print("6. Salir")
+
+        opcion = input("Ingrese una opción: ")
+
+        if opcion == "1":
+            print("Ingrese los datos de la ley:")
+            Nro_Registro = input("Número de registro: ")
+            Tipo_Normativa = input("Tipo de normativa (Ley, Decreto, Resolución u Otro): ")
+            Nro_Normativa = int(input("Número de normativa: "))
+            Fecha = input("Fecha de publicación (DD/MM/AAAA): ")
+            Descripcion = input("Descripción: ")
+            Categoria = input("Categoría (Laboral, Penal, Civil, Comercial, Familia y sucesiones, Agrario y ambiental, Minería, Derecho informático u Otro): ")
+            Jurisdiccion = input("Jurisdicción (Nacional, Provincial u Otro): ")
+            Organo_Legislativo = input("Órgano legislativo (Congreso de la Nación, Legislación de Córdoba u Otro): ")
+            Palabras_Clave = input("Palabras clave (separadas por comas): ").split(",")
+
+            ley = Ley(
+                Nro_Registro,
+                Tipo_Normativa,
+                Nro_Normativa,
+                Fecha,
+                Descripcion,
+                Categoria,
+                Jurisdiccion,
+                Organo_Legislativo,
+                Palabras_Clave,
+            )
+
+            base_datos.crear_ley(ley)
+
+        elif opcion == "2":
+            base_datos.leer_leyes()
+
+        elif opcion == "3":
+            print("Ingrese los nuevos datos de la ley:")
+            id_ley = int(input("ID de la ley a actualizar: "))
+            Nro_Registro = input("Número de ley: ")
+            Tipo_Normativa = input("Tipo de normativa (Ley, Decreto, Resolución u Otro): ")
+            Nro_Normativa = int(input("Número de normativa: "))
+            Fecha = input("Fecha de publicación (DD/MM/AAAA): ")
+            Descripcion = input("Descripción: ")
+            Categoria = input("Categoría (Laboral, Penal, Civil, Comercial, Familia y sucesiones, Agrario y ambiental, Minería, Derecho informático u Otro): ")
+            Jurisdiccion = input("Jurisdicción (Nacional, Provincial u Otro): ")
+            Organo_Legislativo = input("Órgano legislativo (Congreso de la Nación, Legislación de Córdoba u Otro): ")
+            Palabras_Clave = input("Palabras clave (separadas por comas): ").split(",")
+
+            base_datos.actualizar_ley(
+                id_ley,
+                Nro_Registro,
+                Tipo_Normativa,
+                Nro_Normativa,
+                Fecha,
+                Descripcion,
+                Categoria,
+                Jurisdiccion,
+                Organo_Legislativo,
+                Palabras_Clave,
+            )
+
+        elif opcion == "4":
+            id_ley = int(input("ID de la ley a eliminar: "))
+            base_datos.eliminar_ley(id_ley)
+
+        elif opcion == "5":
+            print("Ingrese los criterios de búsqueda:")
+            Nro_Normativa = input("Número de normativa (opcional): ")
+            Palabras_Clave = input("Palabras clave (opcional): ")
+
+            base_datos.consultar_ley(Nro_Normativa, Palabras_Clave)
+
+        elif opcion == "6":
+            base_datos.cerrar_conexion()
+            break
+
+        else:
+            print("Opción inválida. Por favor, ingrese una opción válida.")
+
+
+if __name__ == "_main_":
+    main()
+    
