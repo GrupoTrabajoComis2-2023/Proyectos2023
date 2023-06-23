@@ -132,7 +132,8 @@ class BaseDatos:
 
     def cerrar_conexion(self):
         self.conexion.close()
-        
+
+
 def main():
     base_datos = BaseDatos()
 
@@ -221,6 +222,5 @@ def main():
             print("Opción inválida. Por favor, ingrese una opción válida.")
 
 
-if __name__ == "_main_":
+if __name__ == "__main__":
     main()
-    
