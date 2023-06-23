@@ -101,3 +101,34 @@ class BaseDatos:
 
         self.conexion.commit()
         print("La ley se ha actualizado correctamente.")
+
+    def eliminar_ley(self, id_ley):
+        self.cursor.execute("DELETE FROM Leyes WHERE id = ?", (id_ley,))
+        self.conexion.commit()
+        print("La ley se ha eliminado correctamente.")
+
+    def consultar_ley(self, Nro_Normativa=None, Palabras_Clave=None):
+        query = "SELECT * FROM Leyes WHERE "
+        parameters = []
+
+        if Nro_Normativa:
+            query += "Nro_Normativa = ? "
+            parameters.append(Nro_Normativa)
+
+        if Palabras_Clave:
+            if Nro_Normativa:
+                query += "AND "
+            query += "Palabras_Clave LIKE ?"
+            parameters.append("%{}%".format(Palabras_Clave))
+
+        self.cursor.execute(query, tuple(parameters))
+        Leyes = self.cursor.fetchall()
+
+        if Leyes:
+            for ley in Leyes:
+                print(ley)
+        else:
+            print("No se encontraron Leyes que coincidan con los criterios de búsqueda.")
+
+    def cerrar_conexion(self):
+        self.conexion.close()
