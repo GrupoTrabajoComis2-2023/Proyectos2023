@@ -52,3 +52,52 @@ class BaseDatos:
 
         self.conexion.commit()
         print("La ley se ha creado correctamente.")
+
+    def leer_leyes(self):
+        self.cursor.execute("SELECT * FROM Leyes")
+        leyes = self.cursor.fetchall()
+        for ley in leyes:
+            print("ID:", ley[0])
+            print("Número:", ley[1])
+            print("Tipo de normativa:", ley[2])
+            print("Número de normativa:", ley[3])
+            print("Fecha:", ley[4])
+            print("Descripción:", ley[5])
+            print("Categoría:", ley[6])
+            print("Jurisdicción:", ley[7])
+            print("Órgano legislativo:", ley[8])
+            print("Palabras clave:", ley[9])
+            print()
+    
+        if not leyes:
+            print("No hay Leyes registradas.")
+
+    def actualizar_ley(self, id_ley, Nro_Registro, Tipo_Normativa, Nro_Normativa, Fecha, Descripcion, Categoria, Jurisdiccion, Organo_Legislativo, Palabras_Clave):
+        self.cursor.execute(
+            """UPDATE Leyes
+            SET Nro_Registro = ?,
+                Tipo_Normativa = ?,
+                Nro_Normativa = ?,
+                Fecha = ?,
+                Descripcion = ?,
+                Categoria = ?,
+                Jurisdiccion = ?,
+                Organo_Legislativo = ?,
+                Palabras_Clave = ?
+            WHERE id = ?""",
+            (
+                Nro_Registro,
+                Tipo_Normativa,
+                Nro_Normativa,
+                Fecha,
+                Descripcion,
+                Categoria,
+                Jurisdiccion,
+                Organo_Legislativo,
+                ",".join(Palabras_Clave),
+                id_ley,
+            ),
+        )
+
+        self.conexion.commit()
+        print("La ley se ha actualizado correctamente.")
